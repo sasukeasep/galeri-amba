@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Galeri Doksli </title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            color: white;
+            padding: 30px 20px;
+
+            background:
+                radial-gradient(circle at top left, #7c3aed55, transparent 35%),
+                radial-gradient(circle at bottom right, #ec489955, transparent 35%),
+                linear-gradient(135deg, #0f172a, #1e1b4b, #111827);
+
+            overflow-x: hidden;
+        }
+
+        /* HEADER */
+        header {
+            text-align: center;
+            margin: 20px auto 40px;
+            animation: turun 1s ease;
+        }
+
+        header h1 {
+            font-size: clamp(2.3rem, 8vw, 4.5rem);
+            margin-bottom: 10px;
+
+            background: linear-gradient(
+                90deg,
+                white,
+                #c4b5fd,
+                #f9a8d4
+            );
+
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        header p {
+            color: #d1d5db;
+            font-size: 1rem;
+        }
+
+        /* GALERI */
+        .gallery {
+            width: min(1200px, 100%);
+            margin: auto;
+
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(220px, 1fr));
+
+            gap: 20px;
+        }
+
+        /* CARD FOTO */
+        .card {
+            position: relative;
+            overflow: hidden;
+
+            border-radius: 22px;
+            padding: 7px;
+
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+
+            box-shadow:
+                0 15px 40px rgba(0,0,0,0.3);
+
+            cursor: pointer;
+
+            transition: 0.4s ease;
+
+            animation: muncul 0.8s ease both;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) scale(1.025);
+
+            box-shadow:
+                0 25px 55px rgba(0,0,0,0.45);
+        }
+
+        .card img {
+            display: block;
+
+            width: 100%;
+            height: 280px;
+
+            object-fit: cover;
+
+            border-radius: 17px;
+
+            transition: 0.5s ease;
+        }
+
+        .card:hover img {
+            transform: scale(1.08);
+        }
+
+        /* NOMOR FOTO */
+        .number {
+            position: absolute;
+
+            top: 17px;
+            left: 17px;
+
+            background: rgba(0,0,0,0.55);
+            backdrop-filter: blur(8px);
+
+            padding: 7px 11px;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+
+            z-index: 2;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+
+            margin-top: 45px;
+
+            color: #9ca3af;
+
+            font-size: 14px;
+        }
+
+        /* POPUP FOTO */
+        .modal {
+            position: fixed;
+            inset: 0;
+
+            background: rgba(0,0,0,0.88);
+
+            display: none;
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 25px;
+
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fade 0.25s ease;
+        }
+
+        .modal img {
+            max-width: 95vw;
+            max-height: 85vh;
+
+            object-fit: contain;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 0 60px rgba(255,255,255,0.15);
+
+            animation: zoom 0.3s ease;
+        }
+
+        /* TOMBOL CLOSE */
+        .close {
+            position: fixed;
+
+            top: 20px;
+            right: 25px;
+
+            width: 45px;
+            height: 45px;
+
+            border: none;
+            border-radius: 50%;
+
+            background: rgba(255,255,255,0.15);
+
+            color: white;
+
+            font-size: 28px;
+
+            cursor: pointer;
+
+            transition: 0.3s;
+        }
+
+        .close:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+
+        /* ANIMASI */
+        @keyframes muncul {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes turun {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes zoom {
+            from {
+                transform: scale(0.8);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
+        /* HP */
+        @media (max-width: 600px) {
+
+            body {
+                padding: 20px 12px;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .card {
+                border-radius: 15px;
+                padding: 5px;
+            }
+
+            .card img {
+                height: 210px;
+                border-radius: 12px;
+            }
+
+            .number {
+                top: 10px;
+                left: 10px;
+                padding: 5px 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- JUDUL -->
+    <header>
+
+        <h1>📸 Doksli Gallery💦</h1>
+
+        <p>
+            Kumpulan foto yang penuh kenangan
+        </p>
+
+    </header>
+
+
+    <!-- GALERI -->
+    <main class="gallery">
+
+        <div class="card">
+            <span class="number">01</span>
+            <img src="foto1.jpg" alt="Foto 1">
+        </div>
+
+        <div class="card">
+            <span class="number">02</span>
+            <img src="foto2.jpg" alt="Foto 2">
+        </div>
+
+        <div class="card">
+            <span class="number">03</span>
+            <img src="foto3.jpg" alt="Foto 3">
+        </div>
+
+        <div class="card">
+            <span class="number">04</span>
+            <img src="foto4.jpg" alt="Foto 4">
+        </div>
+
+        <div class="card">
+            <span class="number">05</span>
+            <img src="foto5.jpg" alt="Foto 5">
+        </div>
+
+        <div class="card">
+            <span class="number">06</span>
+            <img src="foto6.jpg" alt="Foto 6">
+        </div>
+
+        <div class="card">
+            <span class="number">07</span>
+            <img src="foto7.jpg" alt="Foto 7">
+        </div>
+
+        <div class="card">
+            <span class="number">08</span>
+            <img src="foto8.jpg" alt="Foto 8">
+        </div>
+
+        <div class="card">
+            <span class="number">09</span>
+            <img src="foto9.jpg" alt="Foto 9">
+        </div>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer>
+        dibuat ku uing & HTML + CSS + JavaScript
+    </footer>
+
+
+    <!-- POPUP FOTO -->
+    <div class="modal" id="modal">
+
+        <button class="close" id="close">
+            ×
+        </button>
+
+        <img id="modalImg" src="" alt="Foto besar">
+
+    </div>
+
+
+    <!-- JAVASCRIPT -->
+    <script>
+
+        // Mengambil semua card foto
+        const cards =
+            document.querySelectorAll(".card");
+
+        const modal =
+            document.getElementById("modal");
+
+        const modalImg =
+            document.getElementById("modalImg");
+
+        const close =
+            document.getElementById("close");
+
+
+        // Ketika foto diklik
+        cards.forEach(card => {
+
+            card.addEventListener("click", () => {
+
+                const img =
+                    card.querySelector("img");
+
+                modalImg.src = img.src;
+
+                modalImg.alt = img.alt;
+
+                modal.classList.add("active");
+
+            });
+
+        });
+
+
+        // Tombol X
+        close.addEventListener("click", () => {
+
+            modal.classList.remove("active");
+
+        });
+
+
+        // Klik bagian luar foto
+        modal.addEventListener("click", (e) => {
+
+            if (e.target === modal) {
+
+                modal.classList.remove("active");
+
+            }
+
+        });
+
+
+        // Tombol ESC
+        document.addEventListener("keydown", (e) => {
+
+            if (e.key === "Escape") {
+
+                modal.classList.remove("active");
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
